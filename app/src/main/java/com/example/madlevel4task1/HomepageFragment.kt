@@ -50,7 +50,9 @@ class HomepageFragment : Fragment() {
             showAddProductDialogue()
         }
 
-
+        fabDeleteAll.setOnClickListener {
+            removeAllProducts()
+        }
     }
 
     private fun initRv() {
@@ -151,6 +153,15 @@ class HomepageFragment : Fragment() {
         } else {
             Toast.makeText(activity, "Please fill in the fields", Toast.LENGTH_LONG).show()
             false
+        }
+    }
+
+    private fun removeAllProducts() {
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                productRepository.deleteAllProducts()
+            }
+            getShoppingListFromDatabase()
         }
     }
 }
